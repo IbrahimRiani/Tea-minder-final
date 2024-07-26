@@ -17,27 +17,15 @@
       "name": "User_3",
       "email": "user_3@teaminder.com",
       "password": "12345678"
+    },
+    {
+      "id": "81b3",
+      "name": "name",
+      "email": "abrem1235@gmail.com",
+      "password": "1234"
     }
   ],
   "teas": [
-    {
-      "id": "1",
-      "userId": "0",
-      "name": "Tea_1",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue porttitor ligula, vitae blandit tortor convallis sodales. Donec vel nulla a dui semper sollicitudin ut et libero. "
-    },
-    {
-      "id": "8c34",
-      "name": "Tea_2",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue porttitor ligula, vitae blandit tortor convallis sodales. Donec vel nulla a dui semper sollicitudin ut et libero. ",
-      "userId": "0"
-    },
-    {
-      "id": "4fdf",
-      "name": "Tea_3",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue porttitor ligula, vitae blandit tortor convallis sodales. Donec vel nulla a dui semper sollicitudin ut et libero. ",
-      "userId": "0"
-    },
     {
       "id": "c648",
       "name": "Tea_4",
@@ -91,6 +79,24 @@
       "name": "Tea_12",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue porttitor ligula, vitae blandit tortor convallis sodales. Donec vel nulla a dui semper sollicitudin ut et libero. ",
       "userId": "4657"
+    },
+    {
+      "id": "724b",
+      "name": "Te nego",
+      "description": "Rico Rico",
+      "userId": "0"
+    },
+    {
+      "id": "44ba",
+      "name": "Te rojo",
+      "description": "Guapisimo",
+      "userId": "0"
+    },
+    {
+      "id": "e22c",
+      "name": "te negro",
+      "description": "tenegro",
+      "userId": "81b3"
     }
   ]
 }

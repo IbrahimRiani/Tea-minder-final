@@ -2,15 +2,11 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { filter, map } from 'rxjs';
+import { AuthService } from '../services/auth.service'; // Importar AuthService
 
 @Component({
   selector: 'home-component',
@@ -31,7 +27,7 @@ import { filter, map } from 'rxjs';
       <span>Tea Minder</span>
       <span class="spacer"></span>
 
-      <button mat-icon-button>
+      <button mat-icon-button (click)="logout()">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-toolbar>
@@ -59,6 +55,7 @@ import { filter, map } from 'rxjs';
 export class HomeComponent implements OnInit {
   location: Location = inject(Location);
   router: Router = inject(Router);
+  authService: AuthService = inject(AuthService);
   canBack = false;
 
   constructor() {
@@ -73,4 +70,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  logout() {
+    this.authService.logout(); // Llama al método de logout del AuthService
+    this.router.navigate(['/auth/login']); // Redirige a la página de login
+  }
 }
