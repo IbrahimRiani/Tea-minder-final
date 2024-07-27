@@ -20,90 +20,73 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   template: `
-     <div class="container">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-card>
-      <mat-card-content>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" />
-          <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
-            Invalid email format
-          </mat-error>
-        </mat-form-field>
+    <div class="container">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-card>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" />
+              <mat-error *ngIf="registerForm.get('name')?.hasError('required')">
+                Name is required
+              </mat-error>
+            </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-          <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
-            Password is required
-          </mat-error>
-        </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+              <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+                Invalid email format
+              </mat-error>
+            </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" />
+              <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+                Password is required
+              </mat-error>
+            </mat-form-field>
 
-        <div class="form-actions">
-          <button mat-button (click)="goToLogin()">Login</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
+            <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+            <button mat-raised-button color="accent" (click)="goToLogin()">Go to Login</button>
+            <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
   `,
-  styles: [`
+  styles: [
+    `
 
-.container {
+mat-card-content {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #cab9e9;
+  border-color: #cab9e9;
 }
 
-form {
-  
-  width: 100%;
-  background: #2c2c2c;
-  max-width: 400px; /* Ajustar ancho máximo */
-  color: #f5f5f5; /* Color de texto claro */
-  
+mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 
-button {
+
+.full-width {
   width: 100%;
-  margin-top: 16px; /* Espacio sobre el botón */
+  
 }
 
 .error-message {
-  color: #ff4d4d; /* Color rojo claro para mensajes de error */
+  color: red;
   text-align: center;
-  margin-top: 12px;
-}
-
-.form-actions {
-  margin-top: 16px;
-  text-align: center;
-}
-
-mat-form-field mat-label {
-  color: #f5f5f5; /* Color claro para etiquetas */
-  
-}
-
-mat-card-content{
-  padding-left: 25%;
-  padding-right: 25%;
-  background-color: #cab9e9;
-}
-
-input {
-  color: #333; /* Color oscuro para el texto de entrada */
-  background: #444; /* Fondo oscuro para campos de entrada */
-}
-
-input:focus {
-  border-color: #fff; /* Borde blanco al enfocar */
+  margin-top: 8px;
 }
     `
   ]

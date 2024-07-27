@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,79 +22,65 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   template: `
-    <div class="container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <mat-card>
-      <mat-card-content>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" />
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-            Invalid email format
-          </mat-error>
-        </mat-form-field>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card class="login-card">
+        <mat-card-content>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+              Invalid email format
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-            Password is required
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+          </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-        <div class="form-actions">
-          <button mat-button (click)="goToRegister()">Register</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </form>
-</div>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
+            Login
+          </button>
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+          <button mat-raised-button color="accent" (click)="goToRegister()">Go to Register</button>
+        </mat-card-content>
+      </mat-card>
+    </form>
   `,
   styles: [
     `
-form {
-  width: 100%;
-  max-width: 400px; /* Ajustar ancho máximo */
-  background: #2c2c2c; /* Fondo oscuro del formulario */
-  border-radius: 8px; /* Bordes redondeados */
-  padding: 24px;
-  color: #f5f5f5; /* Color de texto claro */
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #cab9e9;
+  border-color: #cab9e9;
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 
-button {
+
+.full-width {
   width: 100%;
-  margin-top: 16px; /* Espacio sobre el botón */
+  
 }
 
 .error-message {
-  color: #ff4d4d; /* Color rojo claro para mensajes de error */
+  color: red;
   text-align: center;
-  margin-top: 12px;
-}
-
-.form-actions {
-  margin-top: 16px;
-  text-align: center;
-}
-
-mat-form-field mat-label {
-  color: #f5f5f5; /* Color claro para etiquetas */
-}
-
-input {
-  color: #333; /* Color oscuro para el texto de entrada */
-  background: #444; /* Fondo oscuro para campos de entrada */
-}
-
-input:focus {
-  border-color: #fff; /* Borde blanco al enfocar */
+  margin-top: 8px;
 }
     `
   ]
@@ -100,6 +88,7 @@ input:focus {
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -120,9 +109,20 @@ export class LoginComponent implements OnInit {
     }
 
     const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/']),
-      error: (err: any) => (this.errorMessage = err.message),
+    this.isLoading = true;
+    this.authService.login(email, password).pipe(
+      catchError((err: any) => {
+        this.errorMessage = err.message;
+        this.isLoading = false;
+        return of(null);
+      })
+    ).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 
